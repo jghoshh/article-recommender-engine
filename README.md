@@ -81,7 +81,9 @@ pip install -r requirements.txt
 
 2. Start the article recommendation engine's CLI:
 
-```bash python app/main.py```
+```bash 
+python app/main.py
+```
 
 3. Follow the prompts to generate recommendations for a user.
 
@@ -89,5 +91,7 @@ pip install -r requirements.txt
 
 To run the tests for the recommendation engine, execute the following command:
 
-```bash python -m unittest discover tests```
+```bash 
+python -m unittest discover tests
+```
 
