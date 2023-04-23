@@ -66,8 +66,9 @@ source venv/bin/activate
 ```
 
 4. Install the required dependencies:
+```bash
 pip install -r requirements.txt
-
+```
 ## Configuration
 
 1. Update the `config.py` file with your database configuration and Kafka settings.
@@ -80,7 +81,7 @@ pip install -r requirements.txt
 
 2. Start the article recommendation engine's CLI:
 
-python app/main.py
+```bash python app/main.py```
 
 3. Follow the prompts to generate recommendations for a user.
 
@@ -88,5 +89,5 @@ python app/main.py
 
 To run the tests for the recommendation engine, execute the following command:
 
-python -m unittest discover tests
+```bash python -m unittest discover tests```
 
