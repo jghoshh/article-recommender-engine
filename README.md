@@ -52,14 +52,18 @@ article_recommender/
 
 ```bash
 git clone https://github.com/your_username/article-recommender.git
-
+```
 
 2. Change to the project directory:
+```bash
 cd article-recommender
+```
 
 3. Create a virtual environment and activate it:
+```bash
 python -m venv venv
 source venv/bin/activate
+```
 
 4. Install the required dependencies:
 pip install -r requirements.txt
