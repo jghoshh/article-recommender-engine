@@ -1,0 +1,6 @@
+Flask==2.1.1
+Flask-SQLAlchemy==2.5.1
+SQLAlchemy==1.4.27
+psycopg2==2.9.3
+Werkzeug==2.1.1
+textblob==0.15.3
