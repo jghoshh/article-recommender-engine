@@ -11,7 +11,11 @@ def login():
     if form.validate_on_submit():
         # check if the user exists and the password is correct
         user = User.query.filter_by(email=form.email.data).first()
-        if user is None or not user.check_password(form.password.data):
+        if user is None:
+            flash('Invalid email or password', 'danger')
+            return redirect(url_for('auth.login'))
+
+        if not user.check_password(form.password.data):
             flash('Invalid email or password', 'danger')
             return redirect(url_for('auth.login'))
 
@@ -37,6 +41,15 @@ def logout():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        # check if the username or email already exists in the database
+        if User.does_user_exist(form.username.data):
+            flash('Username already exists', 'danger')
+            return redirect(url_for('auth.register'))
+
+        if User.does_email_exist(form.email.data):
+            flash('Email address already registered', 'danger')
+            return redirect(url_for('auth.register'))
+
         # create a new user object and add it to the database
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
