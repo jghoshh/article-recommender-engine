@@ -1,8 +1,7 @@
 from main import create_app
 from config import ProdConfig, TestConfig
-import os
 
-config = ProdConfig()
+config = TestConfig()
 
 app = create_app(config)
 
