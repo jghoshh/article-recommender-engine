@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify, current_app
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
-from .views.models.models import User
-from .views.auth import auth_bp
+from .models.models import User
+from .auth import auth_bp
 
 db = SQLAlchemy()
 
