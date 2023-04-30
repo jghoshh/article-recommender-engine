@@ -1,4 +1,5 @@
 import requests
+import hashlib
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -65,6 +66,19 @@ def scrape_articles(base_url, links):
         articles[heading] = (full_url, content)
 
     return articles
+
+# Function to compute the hash of the main page of The Verge Tech
+def get_verge_main_page_hash():
+    options = Options()
+    options.add_argument("--headless")
+    s = Service('path/to/chromedriver')
+    browser = webdriver.Chrome(service=s, options=options)
+    browser.get("https://www.theverge.com/tech")
+    html_content = browser.page_source
+    browser.quit()
+
+    return hashlib.md5(html_content.encode('utf-8')).hexdigest()
+
 
 # Main function 
 def main(): 
