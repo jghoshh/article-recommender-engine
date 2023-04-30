@@ -6,6 +6,7 @@ import redis
 # Initialize Redis connection
 redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
+# Function to monitor and scrape the main pages of 
 def monitor_and_scrape():
     def check_verge():
         new_hash = get_verge_main_page_hash()

@@ -12,6 +12,10 @@ class User(db.Model):
     email = db.Column(db.String(128), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(128), nullable=False)
 
+    __table_args__ = (
+        db.UniqueConstraint('username', 'email', name='unique_username_email'),
+    )
+
     favorite_articles = db.relationship('Article', secondary='favorite_article', backref='favorited_by')
     viewed_articles = db.relationship('Article', secondary='viewed_article', backref='viewed_by')
     shared_articles = db.relationship('Article', secondary='shared_article', backref='shared_by')
@@ -63,8 +67,8 @@ class Article(db.Model):
 
 class Interaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
+    article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable=False, index=True)
     read_time = db.Column(db.Integer, nullable=False)
     scroll_depth = db.Column(db.Float, nullable=False, default=0.0)
     rating = db.Column(db.Integer, nullable=True)
@@ -83,9 +87,9 @@ class Interaction(db.Model):
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable=False)
-    interaction_id = db.Column(db.Integer, db.ForeignKey('interaction.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False, index=True)
+    article_id = db.Column(db.Integer, db.ForeignKey('article.id', ondelete='CASCADE'), nullable=False, index=True)
+    interaction_id = db.Column(db.Integer, db.ForeignKey('interaction.id', ondelete='CASCADE'), nullable=False, index=True)
     polarity = db.Column(db.Float, nullable=False)
     subjectivity = db.Column(db.Float, nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -97,23 +101,23 @@ class Comment(db.Model):
 
 # Association tables for many to many relationship between users and articles.
 favorite_article = db.Table('favorite_article',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('article_id', db.Integer, db.ForeignKey('article.id'), primary_key=True)
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('article_id', db.Integer, db.ForeignKey('article.id', ondelete='CASCADE'), primary_key=True)
 )
 
 viewed_article = db.Table('viewed_article',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('article_id', db.Integer, db.ForeignKey('article.id'), primary_key=True)
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('article_id', db.Integer, db.ForeignKey('article.id', ondelete='CASCADE'), primary_key=True)
 )
 
 shared_article = db.Table('shared_article',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('article_id', db.Integer, db.ForeignKey('article.id'), primary_key=True),
-    db.Column('platform', db.String(64), nullable=False)
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('article_id', db.Integer, db.ForeignKey('article.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('platform', db.String(64), nullable=False, primary_key=True)
 )
 
 recommendation = db.Table('recommendation',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('article_id', db.Integer, db.ForeignKey('article.id'), primary_key=True),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('article_id', db.Integer, db.ForeignKey('article.id', ondelete='CASCADE'), primary_key=True),
     db.Column('recommended_on', db.DateTime, nullable=False, default=datetime.utcnow)
 )
