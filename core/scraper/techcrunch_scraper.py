@@ -5,8 +5,18 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
-# Function to get article heading and content
+
 def get_article_content(url):
+    """
+    Scrape the content of an article from a given URL.
+
+    Parameters:
+        url (str): The URL of the article.
+
+    Returns:
+        tuple: A tuple containing the heading and content of the article.
+        The heading is a string and the content is a string of concatenated text.
+    """
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -20,8 +30,14 @@ def get_article_content(url):
 
     return heading, content
 
-# Function to get links from the main TechCrunch page
+
 def get_links():
+    """
+    Scrape the URLs of articles from the main page of TechCrunch.
+
+    Returns:
+        set: A set of URLs of articles.
+    """
     # Set up Selenium options
     options = Options()
     options.add_argument("--headless")  # Run in headless mode, without a visible browser window
@@ -50,8 +66,19 @@ def get_links():
 
     return links
 
-# Function to scrape article content for a set of links
+
 def scrape_articles(base_url, links):
+    """
+    Scrape the content of multiple articles from a given set of URLs.
+
+    Parameters:
+        base_url (str): The base URL of the website.
+        links (set): A set of article URLs.
+
+    Returns:
+        dict: A dictionary of article headings as keys and a tuple of article URL and content as values.
+        The heading is a string, the URL is a string, and the content is a string of concatenated text.
+    """
     articles = {}
     for link in links:
         full_url = base_url + link
@@ -60,8 +87,14 @@ def scrape_articles(base_url, links):
 
     return articles
 
-# Function to compute the hash of the main page of TechCrunch
+
 def get_techcrunch_main_page_hash():
+    """
+    Compute the MD5 hash of the HTML content of the main page of TechCrunch.
+
+    Returns:
+        str: The MD5 hash of the HTML content of the main page of TechCrunch.
+    """
     options = Options()
     options.add_argument("--headless")
     s = Service('path/to/chromedriver')
@@ -72,8 +105,15 @@ def get_techcrunch_main_page_hash():
 
     return hashlib.md5(html_content.encode('utf-8')).hexdigest()
 
-# Main function
+
 def main():
+    """
+    Scrape the content of articles from the main page of TechCrunch.
+
+    Returns:
+        dict: A dictionary of article headings as keys and a tuple of article URL and content as values.
+        The heading is a string, the URL is a string, and the content is a string of concatenated text.
+    """
     base_url = "https://www.techcrunch.com"
     links = get_links()
     return scrape_articles(base_url, links)

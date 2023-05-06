@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Register - Elysian
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-sm-12">
+            <h2 class="text-center">Register</h2>
+            <form method="POST" action="{{ url_for('auth.register') }}" novalidate>
+                {{ form.hidden_tag() }}
+                <div class="form-group mb-2">
+                    <p class="lead">{{ form.username.label }}</p>
+                    {{ form.username(class="form-control") }}
+                    {% for error in form.username.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group mb-2">
+                    <p class="lead">{{ form.email.label }}</p>
+                    {{ form.email(class="form-control") }}
+                    {% for error in form.email.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group mb-2">
+                    <p class="lead">{{ form.password.label }}</p>
+                    {{ form.password(class="form-control") }}
+                    {% for error in form.password.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group mb-4">
+                    <p class="lead">{{ form.confirm_password.label }}</p>
+                    {{ form.confirm_password(class="form-control") }}
+                    {% for error in form.confirm_password.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">Register</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

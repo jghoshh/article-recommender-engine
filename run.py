@@ -1,4 +1,4 @@
-from main import create_app
+from core.app import create_app
 from config import ProdConfig, TestConfig
 
 config = TestConfig()

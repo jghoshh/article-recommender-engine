@@ -25,3 +25,7 @@ class UpdateUserForm(FlaskForm):
     new_password = PasswordField('New Password', validators=[DataRequired(), Length(min=8)])
     confirm_new_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password')])
     submit = SubmitField('Update')
+
+class SearchForm(FlaskForm):
+    keywords = StringField('Search', validators=[DataRequired(), Length(min=1, max=256)])
+    submit = SubmitField('Search')

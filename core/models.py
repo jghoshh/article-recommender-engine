@@ -3,8 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import validates
 from textblob import TextBlob
 from datetime import datetime
-
-db = SQLAlchemy()
+from core.extensions import db
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -64,6 +63,50 @@ class Article(db.Model):
         blob = TextBlob(self.content)
         self.polarity = blob.sentiment.polarity
         self.subjectivity = blob.sentiment.subjectivity
+    
+    @staticmethod
+    def get_recommended_articles(user):
+        # Replace with actual business logic later
+        dummy_articles = [
+            {
+                'id': 1,
+                'title': 'Recommended Article 1',
+                'summary': 'This is a summary of the recommended article 1.',
+            },
+            {
+                'id': 2,
+                'title': 'Recommended Article 2',
+                'summary': 'This is a summary of the recommended article 2.',
+            },
+            {
+                'id': 3,
+                'title': 'Recommended Article 3',
+                'summary': 'This is a summary of the recommended article 3.',
+            }
+        ]
+        return dummy_articles
+
+    @staticmethod
+    def get_popular_articles():
+        # Replace with actual business logic later
+        dummy_articles = [
+            {
+                'id': 1,
+                'title': 'BlueSky: News or Horror?',
+                'summary': 'This is a summary of the popular article 1.',
+            },
+            {
+                'id': 2,
+                'title': 'Popular Article 2',
+                'summary': 'This is a summary of the popular article 2.',
+            },
+            {
+                'id': 3,
+                'title': 'Popular Article 3',
+                'summary': 'This is a summary of the popular article 3.',
+            }
+        ]
+        return dummy_articles
 
 class Interaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -3,10 +3,20 @@ import hashlib
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service  # Import ChromeDriverService
+from selenium.webdriver.chrome.service import Service  
 
-# Function to get article heading and content
+
 def get_article_content(url):
+    """
+    Scrape the content of an article from a given URL.
+
+    Parameters:
+        url (str): The URL of the article.
+
+    Returns:
+        tuple: A tuple containing the heading and content of the article.
+        The heading is a string and the content is a string of concatenated text.
+    """
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -23,8 +33,17 @@ def get_article_content(url):
 
     return heading, content
 
-# Function to get links from the main tech page
+
 def get_links(): 
+    """
+    Scrape the article links from the main tech page of The Verge.
+
+    Parameters:
+        None.
+
+    Returns:
+        set: A set of article links that match the specified format.
+    """
     # Set up Selenium options
     options = Options()
     options.add_argument("--headless")  # Run in headless mode, without a visible browser window
@@ -57,8 +76,19 @@ def get_links():
 
     return links
 
-# Function to scrape article content for a set of links
+
 def scrape_articles(base_url, links):
+    """
+    Scrape the content of a set of articles specified in the input links.
+
+    Parameters:
+        base_url (str): The base URL of The Verge website.
+        links (set): A set of article links that match the specified format.
+
+    Returns:
+        dict: A dictionary where the keys are the article headings, and the values
+        are tuples containing the article URL and content.
+    """
     articles = {}
     for link in links:
         full_url = base_url + link
@@ -67,8 +97,17 @@ def scrape_articles(base_url, links):
 
     return articles
 
-# Function to compute the hash of the main page of The Verge Tech
+
 def get_verge_main_page_hash():
+    """
+    Compute the hash of the main page of The Verge Tech.
+
+    Parameters:
+        None.
+
+    Returns:
+        str: The MD5 hash of the HTML content of the main page of The Verge Tech.
+    """
     options = Options()
     options.add_argument("--headless")
     s = Service('path/to/chromedriver')
@@ -80,8 +119,18 @@ def get_verge_main_page_hash():
     return hashlib.md5(html_content.encode('utf-8')).hexdigest()
 
 
-# Main function 
 def main(): 
+    """
+    The main function that calls the get_links() and scrape_articles() functions
+    and returns the scraped articles.
+
+    Parameters:
+        None.
+
+    Returns:
+        dict: A dictionary where the keys are the article headings, and the values
+        are tuples containing the article URL and content.
+    """
     base_url = "https://www.theverge.com"
     links = get_links()
     return scrape_articles(base_url, links)

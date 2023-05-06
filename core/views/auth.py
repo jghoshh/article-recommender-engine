@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
-from .models.models import db, User
-from .forms.forms import LoginForm, RegistrationForm, UpdateUserForm, CommentForm
+from core.models import db, User
+from core.forms import LoginForm, RegistrationForm, UpdateUserForm, CommentForm
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -21,7 +21,7 @@ def login():
         flash('You have been logged in', 'success')
         return redirect(url_for('main.index'))
 
-    return render_template('login.html', form=form)
+    return render_template('auth/login.html', form=form)
 
 
 @auth_bp.route('/logout')
@@ -58,7 +58,7 @@ def register():
         flash('Your account has been created', 'success')
         return redirect(url_for('main.index'))
 
-    return render_template('register.html', form=form)
+    return render_template('auth/register.html', form=form)
 
 
 @auth_bp.route('/update', methods=['GET', 'POST'])
@@ -86,7 +86,7 @@ def update_user():
         flash('Your account has been updated', 'success')
         return redirect(url_for('main.index'))
 
-    return render_template('update_user.html', form=form)
+    return render_template('templates/update_user.html', form=form)
 
 
 @auth_bp.route('/delete', methods=['GET', 'POST'])

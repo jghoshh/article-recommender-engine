@@ -1,13 +1,20 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 from verge_scraper import main as scrape_verge, get_verge_main_page_hash
 from techcrunch_scraper import main as scrape_techcrunch, get_techcrunch_main_page_hash
-import redis
+import redislite
+
+# Create a Redis configuration file with AOF persistence enabled
+config_file = 'redis.conf'
+with open(config_file, 'w') as f:
+    f.write('appendonly yes\n')
 
 # Initialize Redis connection
-redis_client = redis.Redis(host='localhost', port=6379, db=0)
+# We use Redis to store the hashes of the html content of TechCrunch and The Verge
+redis_client = redislite.Redis(serverconfig={"appendonly": "yes"})
 
 # Function to monitor and scrape the main pages of 
 def monitor_and_scrape():
+
     def check_verge():
         new_hash = get_verge_main_page_hash()
         old_hash = redis_client.get("verge_hash")
@@ -36,6 +43,5 @@ def monitor_and_scrape():
 
 if __name__ == "__main__":
     scheduler = BlockingScheduler()
-    scheduler.add_job(monitor_and_scrape, 'interval', seconds=30)  # Execute monitor_and_scrape every 5 minutes
-    scheduler.start()
-
+    scheduler.add_job(monitor_and_scrape, 'interval', minutes=5)  # Execute monitor_and_scrape every 5 minutes
+    scheduler.start() 

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Update Account
+{% endblock %}
+
+{% block content %}
+    <h2>Update Account</h2>
+    <form method="POST" action="{{ url_for('auth.update_user') }}" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.username.label }}<br>
+            {{ form.username(class="form-control", value=current_user.username) }}
+            {% for error in form.username.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.email.label }}<br>
+            {{ form.email(class="form-control", value=current_user.email) }}
+            {% for error in form.email.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.new_password.label }}<br>
+            {{ form.new_password(class="form-control") }}
+            {% for error in form.new_password.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.new_password_confirm.label }}<br>
+            {{ form.new_password_confirm(class="form-control") }}
+            {% for error in form.new_password_confirm.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.old_password.label }}<br>
+            {{ form.old_password(class="form-control") }}
+            {% for error in form.old_password.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    <hr>
+    <h2>Delete Account</h2>
+    <form method="POST" action="{{ url_for('auth.delete_user') }}">
+        {{ form.csrf_token }}
+        <p class="text-danger">Warning: This action is irreversible. All your data will be permanently deleted.</p>
+        <button type="submit" class="btn btn-danger">Delete Account</button>
+    </form>
+{% endblock %}
