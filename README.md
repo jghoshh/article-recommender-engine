@@ -1,3 +1,3 @@
-# Elysian - Article Recommender Engine
+# Elysian - Article Recommender App
 
-This project is an article recommendation engine that provides personalized content recommendations to users based on their reading history. 
+An article recommender app built using Flask.
